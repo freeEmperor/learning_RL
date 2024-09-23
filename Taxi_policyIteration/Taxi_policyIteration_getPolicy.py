@@ -2,11 +2,13 @@ import gym
 import numpy as np
 import pandas as pd
 
+round = 100
 policy = np.ones(500) * 5
 matrix_P = np.zeros((500,500))
 array_R = np.zeros(500)
 discount_rate = 0.9
 state_value = np.zeros(500)
+state_value_history = np.zeros((round,500))
 dict = {}
 
 
@@ -112,15 +114,17 @@ def update_policy():
 if __name__ == '__main__':
 
     get_model()
-    for i in range(0,500) :
-        #print(policy[0:20])
+
+    for rd in range(0,round) :
         get_P()
         get_R()
         iteration_state_value()
-        #for j in range(0,500):
-            #print(i,j,state_value[j])
+        state_value_history[rd] = state_value
         update_policy()
     #print(policy)
     policy_final = pd.Series(policy)
     policy_final.to_csv('Policy',index=None)
+    #print(state_value_history)
+    state_value_history_final = pd.DataFrame(state_value_history)
+    state_value_history_final.to_csv('State_value',index=None)
 
