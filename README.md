@@ -42,18 +42,19 @@ $$
 
 #### 	Taxi_policyIteration_getPolicy.py：
 
-​		该代码对上述算法进行了实践。我选取discount_rate $\gamma = 0.9$ ，对策略迭代了500次，认为 $\pi_{500}$ 是最终收敛的policy。 其核心代码为：
+​		该代码对上述算法进行了实践。我选取discount_rate $\gamma = 0.9$ ，对策略迭代了100次，认为 $\pi_{100}$ 是最终收敛的policy。 其核心代码为：
 
 ```python
 get_model() #对于model_based的算法，预处理出一个字典，记录每个(state, acton)pair会来到的新状态
-for i in range(0, 500): #迭代500次
+round = 100
+for i in range(0, round): #迭代100次
     get_P() #处理出P矩阵
     get_R() #处理出r向量
     iteration_state_value() #用迭代法计算state_value
     update_policy() #更新policy
 ```
 
-#### 	Policy.csv
+#### 	Policy.csv：
 
 ​		Taxi_policyIteration_getPolicy.py将最终得到的policy保存为Policy.csv文件方便检验时读取。
 
@@ -67,7 +68,17 @@ for i in range(0, 500): #迭代500次
 
 ![](./Taxi_policyIteration/Result.png)
 
+#### State_value.csv：
 
+​		Taxi_policyIteration_getPolicy.py将迭代过程中所有历史时刻的state_value记录下来，保存为State_value.csv文件，方便可视化时读取。
+
+#### Taxi_policyIteration_visualization.py：
+
+​		该代码读取了State_value.csv文件，并选取了( passenger_index=1 , destination_index=0 )和( passenger_index=4 , destination_index=0 )两种状态的地图，利用matplotlib库画出不同迭代次数下state_value的3D曲面图，在figure文件夹下生成一系列图片figure.jpg，并将其合成为state_value_iteration(1,0).gif和state_value_iteration(4,0).gif动画。
+
+#### state_value_iteration(1,0).gif and state_value_iteration(4,0).gif：
+
+​		可视化成果。
 
 
 
@@ -129,3 +140,15 @@ for rd in range(0,round):
 ​		该代码使用gym接口得到了gym-taxi项目的环境，并读取q_table.csv文件。通过执行多个episode来对policy进行评估。以下为某次执行结果，包括错误的载客送客操作总数和运送乘客的平均步数。
 
 ![](./Taxi_Q-learning/Result.png)
+
+#### State_value.csv：
+
+​		Taxi_Q-learning_getPolicy.py将迭代过程中所有历史时刻的state_value记录下来(我们认为 $v(s)=\max_a q(s,a)$ )，保存为State_value.csv文件，方便可视化时读取。
+
+#### Taxi_Q-learning_visualization.py：
+
+​		该代码读取了State_value.csv文件，并选取了( passenger_index=1 , destination_index=0 )和( passenger_index=4 , destination_index=0 )两种状态的地图，利用matplotlib库画出每20次迭代下state_value的3D曲面图，在figure文件夹下生成一系列图片figure.jpg，并将其合成为state_value_iteration(1,0).gif和state_value_iteration(4,0).gif动画。
+
+#### state_value_iteration(1,0).gif and state_value_iteration(4,0).gif：
+
+​		可视化成果。
